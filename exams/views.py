@@ -1,10 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import *
 
 
 # Create your views here.
 def home(request):
-    return render(request, "exams/home.html")
+    exams = Exam.objects.all()
+    context = {
+        "exams": exams
+    }
+    return render(request, "exams/home.html", context=context)
 
 
 def about(request):
