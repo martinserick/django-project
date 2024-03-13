@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="py-3 breadcrumb-wrapper mb-4">
+      <span class="text-muted fw-light">Cadastro de Exames/</span> Exames
+    </h4>
+
+    <!-- Basic Layout & Basic with Icons -->
+    <div class="row">
+      <!-- Basic Layout -->
+      <div class="col-xxl">
+        <div class="card mb-4">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Cadastro de Exames</h5>
+            </div>
+          <div class="card-body">
+            <form>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="pet_name">Nome</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="pet_name" name="pet_name" placeholder="Nome do Pet" />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="multicol-country">Idade do Pet</label>
+                <div class="col-sm-10">
+                  <div class="position-relative">
+                    <select id="multicol-country" class="select2 form-select select2-hidden-accessible">
+                    <option value="">Selecione uma opção</option>
+                    {% for value, label in exam.AGE.items %}
+                      <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="pet_specie">Espécie</label>
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="pet_specie"
+                    name="pet_specie"
+                    placeholder="Ex.: Felino" />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="pet_race">Raça</label>
+                <div class="col-sm-10">
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="text"
+                      id="pet_race"
+                      name="pet_race"
+                      class="form-control"
+                      placeholder="Persa" />
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="basic-default-phone">Procedimento</label>
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    id="basic-default-phone"
+                    class="form-control phone-mask"
+                    placeholder="658 799 8941"
+                    aria-label="658 799 8941"
+                    aria-describedby="basic-default-phone" />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="basic-default-message">Message</label>
+                <div class="col-sm-10">
+                  <textarea
+                    id="basic-default-message"
+                    class="form-control"
+                    placeholder="Hi, Do you have a moment to talk Joe?"
+                    aria-label="Hi, Do you have a moment to talk Joe?"
+                    aria-describedby="basic-icon-default-message2"></textarea>
+                </div>
+              </div>
+              <div class="row justify-content-end">
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+  </div>
+  <!-- / Content -->
+
+{% endblock content %}

@@ -2,7 +2,19 @@ from django.urls import path
 from exams.views import *
 
 urlpatterns = [
-    path("", home),
-    path("about/", about),
-    path("contact/", contact),
+    path("", list_exams, name="list_exams"),
+    path("exam/create/", create_exams, name="create_exams"),
+
+    path("specie/list/", list_species, name="list_species"),
+    path("specie/create/", create_species, name="create_species"),
+
+    path("race/list/", list_races, name="list_races"),
+    path("race/create/", create_races, name="create_races"),
+
+    path("customer/list/", list_customers, name="list_customers"),
+    path("specie/create/", create_customers, name="create_customers"),
+
+    path("procedure/list/", list_procedures, name="list_procedures"),
+    path("procedure/create/", create_procedures, name="create_procedures"),
+
 ]
