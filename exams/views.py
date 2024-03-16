@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from .forms import *
 from .models import *
 
 
@@ -13,21 +13,39 @@ def list_exams(request):
 
 
 def create_exams(request):
-    exam = Exam.objects.first()
-    context = {
-        "exam": exam,
-    }
-    return render(request, "exams/create_exams.html", context=context)
+    if request.method == "POST":
+        form = ExamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_exams')
+        else:
+            errors = form.errors
+            return render(request, 'exams/create_exams.html', {'form': form, 'errors': errors})
+    else:
+        form = ExamForm()
+
+    return render(request, "exams/create_exams.html", {'form': form})    
 
 
 # Species
 def list_species(request):
-    return render(request, "species/list_species.html")
+    species = Specie.objects.all()
+    return render(request, "species/list_species.html", {'species': species})
 
 
 def create_species(request):
-    return render(request, "species/create_species.html")
+    if request.method == "POST":
+        form = SpecieForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_species')
+        else:
+            errors = form.errors
+            return render(request, 'species/create_species.html', {'form': form, 'errors': errors})
+    else:
+        form = SpecieForm()
 
+    return render(request, "species/create_species.html", {'form': form})
 # Races
 
 def list_races(request):
