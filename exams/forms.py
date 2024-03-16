@@ -49,3 +49,37 @@ class SpecieForm(ModelForm):
             'name': "Espécie"
         }
 
+class RaceForm(ModelForm):
+    
+    class Meta:
+        model = Race
+        fields = "__all__"
+
+        widgets = {
+            'name': TextInput(attrs={'class': 'form-control mb-2'}),
+        }
+        labels = {
+            'name': "Raça"
+        }
+
+class ProcedureForm(ModelForm):
+    
+    class Meta:
+        model = Procedure
+        fields = "__all__"
+        widgets = {
+            'name': TextInput(attrs={'class': 'form-control mb-2'}),
+            'acronym': TextInput(attrs={'class': 'form-control mb-2'}),
+            'deadline_in_days': NumberInput(attrs={'class': 'form-control mb-2'}),
+            'general_value': NumberInput(attrs={'class': 'form-control mb-2'}),
+            'clinic_value': NumberInput(attrs={'class': 'form-control mb-2'}),
+            'laboratory_value': NumberInput(attrs={'class': 'form-control mb-2'})
+        }
+        labels = {
+            'name': "Procedimento",
+            'acronym': "Sigla",
+            'deadline_in_days': "Prazo em dias",
+            'general_value': 'Valor Geral',
+            'clinic_value': 'Valor Clínica',
+            'laboratory_value': "Valor Laboratório"
+        }

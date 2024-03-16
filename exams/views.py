@@ -49,16 +49,29 @@ def create_species(request):
 # Races
 
 def list_races(request):
-    return render(request, "races/list_races.html")
-
+    races = Race.objects.all()
+    return render(request, "races/list_races.html", {'races': races})
+    
 
 def create_races(request):
-    return render(request, "races/create_races.html")
+    if request.method == "POST":
+        form = RaceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_races')
+        else:
+            errors = form.errors
+            return render(request, 'races/create_races.html', {'form': form, 'errors': errors})
+    else:
+        form = RaceForm()
+
+    return render(request, "races/create_races.html", {'form': form})
 
 # Procedures
 
 def list_procedures(request):
-    return render(request, "procedures/list_procedures.html")
+    procedures = Procedure.objects.all()
+    return render(request, "procedures/list_procedures.html", {'procedures': procedures})
 
 
 def create_procedures(request):

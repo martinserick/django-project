@@ -37,7 +37,7 @@
             <td>{{ exam.procedure.general_value }}</td>
             <td>{{ exam.created_at }}</td>
             {% if exam.observation %}
-              <td>{{ exam.observation }}</td>
+              <td class="text-truncate">{{ exam.observation }}</td>
             {% else %}
             <td>-</td>
             {% endif %}
