@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
 from .forms import *
 from .models import *
 
@@ -75,13 +77,42 @@ def list_procedures(request):
 
 
 def create_procedures(request):
-    return render(request, "procedures/create_procedures.html")
+    if request.method == "POST":
+        form = ProcedureForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_procedures')
+        else:
+            errors = form.errors
+            return render(request, 'procedures/create_procedures.html', {'form': form, 'errors': errors})
+    else:
+        form = ProcedureForm()
+
+    return render(request, "procedures/create_procedures.html", {'form': form})
+
+class ProcedureUpdateView(UpdateView):
+    model = Procedure
+    form_class = ProcedureForm
+    template_name = "procedures/procedure_form.html"
+    success_url = reverse_lazy('list_procedures')
 
 # Customers
 
 def list_customers(request):
-    return render(request, "customers/list_customers.html")
+    customers = Customer.objects.all()
+    return render(request, "customers/list_customers.html", {'customers': customers})
 
 
 def create_customers(request):
-    return render(request, "customers/create_customers.html")
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_customers')
+        else:
+            errors = form.errors
+            return render(request, 'customers/create_customers.html', {'form': form, 'errors': errors})
+    else:
+        form = CustomerForm()
+
+    return render(request, "customers/create_customers.html", {'form': form})

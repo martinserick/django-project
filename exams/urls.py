@@ -12,9 +12,10 @@ urlpatterns = [
     path("race/create/", create_races, name="create_races"),
 
     path("customer/list/", list_customers, name="list_customers"),
-    path("specie/create/", create_customers, name="create_customers"),
+    path("customer/create/", create_customers, name="create_customers"),
 
     path("procedure/list/", list_procedures, name="list_procedures"),
     path("procedure/create/", create_procedures, name="create_procedures"),
+    path("procedure/edit/<int:pk>", ProcedureUpdateView.as_view(), name="update_procedures")
 
 ]

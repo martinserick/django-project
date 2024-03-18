@@ -76,10 +76,27 @@ class ProcedureForm(ModelForm):
             'laboratory_value': NumberInput(attrs={'class': 'form-control mb-2'})
         }
         labels = {
-            'name': "Procedimento",
+            'name': "Nome",
             'acronym': "Sigla",
-            'deadline_in_days': "Prazo em dias",
+            'deadline_in_days': "Prazo",
             'general_value': 'Valor Geral',
             'clinic_value': 'Valor Clínica',
             'laboratory_value': "Valor Laboratório"
         }
+
+class CustomerForm(ModelForm):
+    
+    class Meta:
+        model = Customer
+        fields = "__all__"
+        widgets = {
+            'name': TextInput(attrs={'class': 'form-control mb-2'}),
+            'type': Select(attrs={'class': 'form-select mb-2'}),
+            'email': TextInput(attrs={'class': 'form-control mb-2'}),
+        }
+        labels = {
+            'name': 'Nome',
+            'type': 'Tipo',
+            'email': 'E-mail'
+        }
+

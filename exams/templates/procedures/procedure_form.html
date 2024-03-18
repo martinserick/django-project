@@ -3,7 +3,7 @@
 
 <div class="container-xxl flex-grow-1 container-p-y">
   <h4 class="py-3 breadcrumb-wrapper mb-4">
-    <span class="text-muted fw-light">Cadastro de Clientes/</span> Clientes
+    <span class="text-muted fw-light">Cadastro de Procedimentos/</span> Procedimentos
   </h4>
 
   <!-- Basic Layout & Basic with Icons -->
@@ -14,7 +14,7 @@
         <div
           class="card-header d-flex align-items-center justify-content-between"
         >
-          <h5 class="mb-0">Cadastro de Clientes</h5>
+          <h5 class="mb-0">Cadastro de Procedimentos</h5>
         </div>
         <div class="card-body">
           {% if errors %}
@@ -27,14 +27,22 @@
                 </ul>
             </div>
           {% endif %}
-          <form action="{% url "create_customers" %}" method="POST">{% csrf_token %}
+          <form method="POST">{% csrf_token %}
             <div class="row mb-3 text-end">
               <label class="col-sm-1 col-form-label">{{ form.name.label }}:</label>
               <div class="col-sm-3">{{form.name}}</div>
-              <label class="col-sm-1 col-form-label">{{ form.type.label }}:</label>
-              <div class="col-sm-3">{{form.type}}</div>
-              <label class="col-sm-1 col-form-label">{{ form.email.label }}:</label>
-              <div class="col-sm-3">{{form.email}}</div>
+              <label class="col-sm-1 col-form-label">{{ form.acronym.label }}:</label>
+              <div class="col-sm-3">{{form.acronym}}</div>
+              <label class="col-sm-1 col-form-label">{{ form.deadline_in_days.label }}:</label>
+              <div class="col-sm-3">{{form.deadline_in_days}}</div>
+            </div>
+            <div class="row mb-3 text-end">
+              <label class="col-sm-2 col-form-label">{{ form.general_value.label }}:</label>
+              <div class="col-sm-2">{{form.general_value}}</div>
+              <label class="col-sm-2 col-form-label">{{ form.clinic_value.label }}:</label>
+              <div class="col-sm-2">{{form.clinic_value}}</div>
+              <label class="col-sm-2 col-form-label">{{ form.laboratory_value.label }}:</label>
+              <div class="col-sm-2">{{form.laboratory_value}}</div>
             </div>
             <div class="row justify-content-start">
               <div class="col-sm-5">
