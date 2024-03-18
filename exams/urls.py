@@ -2,7 +2,7 @@ from django.urls import path
 from exams.views import *
 
 urlpatterns = [
-    path("", list_exams, name="list_exams"),
+    path("", ExamListView.as_view(), name="list_exams"),
     path("exam/create/", create_exams, name="create_exams"),
 
     path("specie/list/", list_species, name="list_species"),
@@ -15,7 +15,7 @@ urlpatterns = [
     path("customer/create/", create_customers, name="create_customers"),
 
     path("procedure/list/", list_procedures, name="list_procedures"),
-    path("procedure/create/", create_procedures, name="create_procedures"),
+    path("procedure/create/", ProcedureCreateView.as_view(), name="create_procedures"),
     path("procedure/edit/<int:pk>", ProcedureUpdateView.as_view(), name="update_procedures")
 
 ]

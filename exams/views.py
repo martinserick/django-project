@@ -1,17 +1,14 @@
 from django.shortcuts import render, redirect
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, CreateView, ListView
 from django.urls import reverse_lazy
 from .forms import *
 from .models import *
 
 
 # Exams
-def list_exams(request):
-    exams = Exam.objects.all()
-    context = {
-        "exams": exams
-    }
-    return render(request, "exams/list_exams.html", context=context)
+class ExamListView(ListView):
+    model = Exam
+    template_name = "exams/list_exams.html" 
 
 
 def create_exams(request):
@@ -76,19 +73,12 @@ def list_procedures(request):
     return render(request, "procedures/list_procedures.html", {'procedures': procedures})
 
 
-def create_procedures(request):
-    if request.method == "POST":
-        form = ProcedureForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('list_procedures')
-        else:
-            errors = form.errors
-            return render(request, 'procedures/create_procedures.html', {'form': form, 'errors': errors})
-    else:
-        form = ProcedureForm()
-
-    return render(request, "procedures/create_procedures.html", {'form': form})
+class ProcedureCreateView(CreateView):
+    model = Procedure
+    template_name = "procedures/procedure_form.html"
+    form_class = ProcedureForm
+    success_url = reverse_lazy('list_procedures')
+    
 
 class ProcedureUpdateView(UpdateView):
     model = Procedure
