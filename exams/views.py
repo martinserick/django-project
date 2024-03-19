@@ -109,11 +109,3 @@ class CustomerDeleteView(DeleteView):
     model = Customer
     template_name = 'customers/delete_customer.html'
     success_url = reverse_lazy('list_customers')
-
-    # Personalize as mensagens para o usuário
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['mensagem_confirmar'] = _('Tem certeza que deseja excluir este objeto? Esta ação não pode ser desfeita.')
-        context['confirmar'] = _('Excluir')
-        context['cancelar'] = _('Cancelar')
-        return context
