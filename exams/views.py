@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.views.generic import UpdateView, CreateView, ListView
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import UpdateView, CreateView, ListView, DeleteView
 from django.urls import reverse_lazy
 from .forms import *
 from .models import *
@@ -8,69 +8,70 @@ from .models import *
 # Exams
 class ExamListView(ListView):
     model = Exam
-    template_name = "exams/list_exams.html" 
+    template_name = "exams/list_exams.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        filter = self.request.GET.get('customer', None)
+        if filter:
+            queryset = queryset.filter(customer__name__icontains=filter)
+        return queryset
 
 
-def create_exams(request):
-    if request.method == "POST":
-        form = ExamForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('list_exams')
-        else:
-            errors = form.errors
-            return render(request, 'exams/create_exams.html', {'form': form, 'errors': errors})
-    else:
-        form = ExamForm()
+class ExamCreateView(CreateView):
+    model = Exam
+    form_class = ExamForm
+    template_name = "exams/exams_form.html"
+    success_url = reverse_lazy('list_exams')
 
-    return render(request, "exams/create_exams.html", {'form': form})    
-
+class ExamUpdateView(UpdateView):
+    model = Exam
+    form_class = ExamForm
+    template_name = "exams/exams_form.html"
+    success_url = reverse_lazy('list_exams')
 
 # Species
-def list_species(request):
-    species = Specie.objects.all()
-    return render(request, "species/list_species.html", {'species': species})
+class SpecieListView(ListView):
+    model = Specie
+    template_name = "species/list_species.html"
+
+class SpecieCreateView(CreateView):
+    model = Specie
+    template_name = "species/species_form.html"
+    form_class = SpecieForm
+    success_url = reverse_lazy('list_species')
+
+class SpecieUpdateView(UpdateView):
+    model = Specie
+    template_name = "species/species_form.html"
+    form_class = SpecieForm
+    success_url = reverse_lazy('list_species')
 
 
-def create_species(request):
-    if request.method == "POST":
-        form = SpecieForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('list_species')
-        else:
-            errors = form.errors
-            return render(request, 'species/create_species.html', {'form': form, 'errors': errors})
-    else:
-        form = SpecieForm()
-
-    return render(request, "species/create_species.html", {'form': form})
 # Races
+class RaceListView(ListView):
+    model = Race
+    template_name = "races/list_races.html"
 
-def list_races(request):
-    races = Race.objects.all()
-    return render(request, "races/list_races.html", {'races': races})
-    
 
-def create_races(request):
-    if request.method == "POST":
-        form = RaceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('list_races')
-        else:
-            errors = form.errors
-            return render(request, 'races/create_races.html', {'form': form, 'errors': errors})
-    else:
-        form = RaceForm()
+class RaceCreateView(CreateView):
+    model = Race
+    template_name = "races/races_form.html"
+    form_class = RaceForm
+    success_url = reverse_lazy('list_races')
 
-    return render(request, "races/create_races.html", {'form': form})
+class RaceUpdateView(UpdateView):
+    model = Race
+    template_name = "races/races_form.html"
+    form_class = RaceForm
+    success_url = reverse_lazy('list_races')
 
 # Procedures
 
-def list_procedures(request):
-    procedures = Procedure.objects.all()
-    return render(request, "procedures/list_procedures.html", {'procedures': procedures})
+class ProcedureListView(ListView):
+    model = Procedure
+    template_name = "procedures/list_procedures.html"
+
 
 
 class ProcedureCreateView(CreateView):
@@ -88,21 +89,31 @@ class ProcedureUpdateView(UpdateView):
 
 # Customers
 
-def list_customers(request):
-    customers = Customer.objects.all()
-    return render(request, "customers/list_customers.html", {'customers': customers})
+class CustomerListView(ListView):
+    model = Customer
+    template_name = "customers/list_customers.html"
 
+class CustomerCreateView(CreateView):
+    model = Customer
+    template_name = "customers/customer_form.html"
+    form_class = CustomerForm
+    success_url = reverse_lazy('list_customers')
 
-def create_customers(request):
-    if request.method == "POST":
-        form = CustomerForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('list_customers')
-        else:
-            errors = form.errors
-            return render(request, 'customers/create_customers.html', {'form': form, 'errors': errors})
-    else:
-        form = CustomerForm()
+class CustomerUpdateView(UpdateView):
+    model = Customer
+    template_name = "customers/customer_form.html"
+    form_class = CustomerForm
+    success_url = reverse_lazy('list_customers')
 
-    return render(request, "customers/create_customers.html", {'form': form})
+class CustomerDeleteView(DeleteView):
+    model = Customer
+    template_name = 'customers/delete_customer.html'
+    success_url = reverse_lazy('list_customers')
+
+    # Personalize as mensagens para o usuário
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mensagem_confirmar'] = _('Tem certeza que deseja excluir este objeto? Esta ação não pode ser desfeita.')
+        context['confirmar'] = _('Excluir')
+        context['cancelar'] = _('Cancelar')
+        return context

@@ -72,8 +72,8 @@ class Exam(models.Model):
     total_value = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     payment = models.CharField(max_length=30, default='Pendente', choices=PAYMENT)
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
-    status = models.BooleanField(null= True)
-    observation = models.TextField(max_length=500, null=True)
+    status = models.BooleanField(null=True)
+    observation = models.TextField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return self.name

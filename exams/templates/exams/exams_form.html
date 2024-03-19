@@ -27,7 +27,7 @@
                 </ul>
             </div>
           {% endif %}
-          <form action="{% url "create_exams" %}" method="POST">{% csrf_token %}
+          <form  method="POST">{% csrf_token %}
             <div class="row mb-3 text-end">
               <label class="col-sm-1 col-form-label">{{ form.name.label }}:</label>
               <div class="col-sm-3">{{form.name}}</div>

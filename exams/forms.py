@@ -18,7 +18,7 @@ class ExamForm(ModelForm):
             'discount': NumberInput(attrs={'class': 'form-control mb-2'}),
             'total_value': NumberInput(attrs={'class': 'form-control mb-2'}),
             'payment': Select(attrs={'class': 'form-select mb-2'}),
-            'observation': Textarea(attrs={'class': 'form-control mb-2'}),
+            'observation': Textarea(attrs={'class': 'form-control mb-2', 'required': False}),
         }
         labels = {
             'name': "Nome do Pet",

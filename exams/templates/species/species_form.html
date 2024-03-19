@@ -3,7 +3,7 @@
 
 <div class="container-xxl flex-grow-1 container-p-y">
   <h4 class="py-3 breadcrumb-wrapper mb-4">
-    <span class="text-muted fw-light">Cadastro de Clientes/</span> Clientes
+    <span class="text-muted fw-light">Cadastro de Exames/</span> Exames
   </h4>
 
   <!-- Basic Layout & Basic with Icons -->
@@ -14,7 +14,7 @@
         <div
           class="card-header d-flex align-items-center justify-content-between"
         >
-          <h5 class="mb-0">Cadastro de Clientes</h5>
+          <h5 class="mt-3">Cadastro de Espécie</h5>
         </div>
         <div class="card-body">
           {% if errors %}
@@ -27,19 +27,15 @@
                 </ul>
             </div>
           {% endif %}
-          <form action="{% url "create_customers" %}" method="POST">{% csrf_token %}
-            <div class="row mb-3 text-end">
-              <label class="col-sm-1 col-form-label">{{ form.name.label }}:</label>
-              <div class="col-sm-3">{{form.name}}</div>
-              <label class="col-sm-1 col-form-label">{{ form.type.label }}:</label>
-              <div class="col-sm-3">{{form.type}}</div>
-              <label class="col-sm-1 col-form-label">{{ form.email.label }}:</label>
-              <div class="col-sm-3">{{form.email}}</div>
+          <form method="POST">{% csrf_token %}
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label">{{ form.name.label }}:</label>
+              <div class="col-sm-10">{{form.name}}</div>
             </div>
             <div class="row justify-content-start">
-              <div class="col-sm-5">
+              <div class="col-sm-10">
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
-                <a href="{% url "list_exams" %}">
+                <a href="{% url "list_species" %}">
                   <button type="button" class="btn btn-secondary mt-3 mb-3">Voltar</button>
                 </a>
               </div>

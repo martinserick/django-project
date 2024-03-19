@@ -12,16 +12,21 @@
   <div class="card">
     <h5 class="card-header">Especies</h5>
     <div class="table-responsive text-nowrap">
-      <table class="table table-hover">
+      <table class="table table-hover text-center">
         <thead>
           <tr>
             <th>Nome</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-          {% for specie in species %}          
+          {% for specie in specie_list %}          
           <tr>
             <td>{{specie.name}}</td>
+            <td>
+              <a href="{% url 'update_species' pk=specie.pk %}" class="p-2"><i class="bi bi-pencil-fill"></i></a>
+              <a href="#" class="p-2"><i class="bi bi-trash-fill"></i></a>
+            </td>
           </tr> 
           {% endfor %}
         </tbody>

@@ -8,6 +8,23 @@
     <span class="text-muted fw-light">Listagem de Exames /</span> Exames
   </h4>
 
+    <div class="card">
+      <div class="row ms-2 me-3 mt-3 mb-3">
+        <div class="pb-0 mx-1 my-2">Filtros:</div>
+        <form action="{% url "list_exams" %}" method="GET">
+          <div class="col-md-12 pt-1 mb-3 d-flex flex-wrap flex-lg-nowrap">
+            <div class="mx-1">
+              <label class="">Cliente:</label>
+              <input type="text" name="customer" class="form-control col-sm-5" placeholder="Filtrar por cliente">
+            </div>
+            <div class="mx-1">
+              <label class="">&nbsp;</label>
+              <button type="submit" class="btn btn-primary form-control py-2">&nbsp;<i class="fas fa-search"></i></button>
+            </div>
+          </div>
+        </form>
+      </div>  
+
   <!-- Basic Bootstrap Table -->
   <div class="card">
     <h5 class="card-header">Exames</h5>
@@ -24,6 +41,8 @@
             <th>Criado em</th>
             <th>Observação</th>
             <th>Status</th>
+            <th>Pagamento</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
@@ -45,17 +64,19 @@
               <td><i class="bi bi-check-circle-fill"></i></td>
             {% else %}
               <td><i class="bi bi-x-circle"></i></td>
-            {% endif %}            
+            {% endif %}
+            <td>{{ exam.payment }}</td>
+            <td><a href="{% url 'update_exams' pk=exam.pk %}"><i class="bi bi-pencil-fill"></i></a></td>          
           </tr> 
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
-  <a href="{% url "create_exams" %}">
-    <button class="btn btn-primary mt-3 mb-3">Novo Exame</button>
-  </a>
 </div>
+<a href="{% url "create_exams" %}">
+  <button class="btn btn-primary mt-3 mb-3">Novo Exame</button>
+</a>
 <!-- / Content -->
 {% endblock content %}
 
