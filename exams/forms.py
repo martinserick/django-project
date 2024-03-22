@@ -5,7 +5,7 @@ class ExamForm(ModelForm):
     
     class Meta:
         model = Exam
-        exclude = ('status',)
+        exclude = ('status','deadline_to_finish', 'days_elapsed', 'cod_exam', 'finished_at')
         widgets = {
             'name': TextInput(attrs={'class': 'form-control mb-2'}),
             'specie': Select(attrs={'class': 'form-select mb-2'}),

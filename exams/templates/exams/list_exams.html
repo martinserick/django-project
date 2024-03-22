@@ -3,7 +3,7 @@
 {% block content %}
  <!-- Content -->
 
- <div class="container-xxl flex-grow-1 container">
+ <div class="flex-grow-1 container-fluid">
   <h4 class="py-3 breadcrumb-wrapper mb-4">
     <span class="text-muted fw-light">Listagem de Exames /</span> Exames
   </h4>
@@ -53,20 +53,24 @@
             <td>{{ exam.race.name }}</td>
             <td>{{ exam.procedure.name }}</td>
             <td>{{ exam.customer.name }}</td>
-            <td>{{ exam.procedure.general_value }}</td>
-            <td>{{ exam.created_at }}</td>
+            <td>{{ exam.total_value }}</td>
+            <td>{{ exam.created_at | date:"d/m/Y H:i" }}</td>
             {% if exam.observation %}
               <td class="text-truncate">{{ exam.observation }}</td>
             {% else %}
             <td>-</td>
             {% endif %}
             {% if exam.status %}
-              <td><i class="bi bi-check-circle-fill"></i></td>
+              <td><i class="bi bi-check-circle-fill text-sucess"></i></td>
             {% else %}
-              <td><i class="bi bi-x-circle"></i></td>
+              <td><i class="bi bi-x-circle text-danger"></i></td>
             {% endif %}
             <td>{{ exam.payment }}</td>
-            <td><a href="{% url 'update_exams' pk=exam.pk %}"><i class="bi bi-pencil-fill"></i></a></td>          
+            <td>
+              <a href="{% url 'show_exam' pk=exam.pk %}"><i class="bi bi-eye-fill p-1"></i></a>
+              <a href="{% url 'update_exams' pk=exam.pk %}"><i class="bi bi-pencil-fill text-secondary p-1"></i></a>
+              <a href="{% url 'delete_exam' pk=exam.pk %}"><i class="bi bi-trash-fill text-danger p-1"></i></a>
+            </td>          
           </tr> 
           {% endfor %}
         </tbody>

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <!-- Content -->
+
+ <div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row invoice-preview">
+      <!-- Invoice -->
+      <div class="col-xl-12 col-md-10 col-12 mb-md-0 mb-4">
+        <div class="card invoice-preview-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between flex-xl-row flex-md-column flex-sm-row flex-column p-sm-3 p-0">
+              <div class="mb-xl-0 mb-4">
+                <div class="d-flex svg-illustration mb-3 gap-2">
+                  <span class="app-brand-text h3 mb-0 fw-bold">RD Patologia Veterinária</span>
+                </div>
+                <p class="mb-1">Nome: {{exam.name|upper}} - Idade: {{exam.get_age_display|upper}} - Espécie: {{exam.specie.name|upper}}</p>
+                <p class="mb-0">Raça: {{exam.race.name|upper}}</p>
+                <p class="mb-0">Dono: {{exam.owner|upper}}</p>
+              </div>
+              <div>
+                <h4>Código #{{exam.pk}}</h4>
+                <div class="mb-2">
+                  <span class="me-1">Criada em: {{exam.created_at}}</span>
+                </div>
+                <div class="mb-2">
+                  <span class="me-1">Data Prevista: {{exam.deadline_to_finish}}</span>
+                </div>
+                <div>
+                  <span class="me-1">Pagamento:</span>
+                  <span class="fw-semibold">{{exam.payment|upper}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="my-0">
+          <div class="card-body">
+            <div class="row p-sm-3 p-0">
+              <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
+                <h6 class="pb-2">Dados do Exame:</h6>
+                <p class="mb-1">Procedimento: {{exam.procedure.name|upper}}</p>
+                <p class="mb-1">Cliente: {{exam.customer.name|upper}}</p>
+                <p class="mb-1">Prazo em dias: {{exam.procedure.deadline_in_days|upper}}</p>
+                {% if exam.customer.type == "Geral" %}
+                  <p class="mb-1">Custo Procedimento: {{exam.procedure.general_value|upper}}</p>
+                {% elif exam.customer.type == "Clínica" %}
+                  <p class="mb-1">Custo Procedimento: {{exam.procedure.clinic_value|upper}}</p>
+                {% else %}
+                  <p class="mb-1">Custo Procedimento: {{exam.procedure.laboratory_value|upper}}</p>
+                {% endif %}
+                <p class="mb-1">Desconto: {{exam.discount|upper}}</p>
+                <p class="mb-1">Valor: R${{exam.total_value|upper}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <span class="fw-semibold">Observação:</span>
+                {% if exam.observation %}
+                  <span>{{exam.observation}}</span>
+                  {% else %}
+                  <span>Sem observação</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row flex">
+        <div>
+          <a href="{% url "list_exams" %}">
+            <button class="btn btn-secondary mt-3 mb-3">Voltar</button>
+          </a>
+          <a href="{% url "delete_exam" pk=exam.pk %}">
+            <button class="btn btn-danger mt-3 mb-3">Excluir</button>
+          </a>
+        </div>
+      </div>
+      <!-- /Invoice -->
+    </div>
+<!-- / Content -->
+{% endblock content %}
+

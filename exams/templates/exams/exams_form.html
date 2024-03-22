@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
 <!-- Content -->
 
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -53,7 +55,7 @@
             </div>
             <div class="row mb-3 text-end">
               <label class="col-sm-1 col-form-label">{{form.customer.label}}:</label>
-              <div class="col-sm-3">{{form.customer}}</div>
+              <div class="col-sm-3" id="customerField">{{form.customer}}</div>
               <label class="col-sm-1 col-form-label">{{form.procedure.label}}:</label>
               <div class="col-sm-3">{{form.procedure}}</div>
               <label class="col-sm-1 col-form-label">{{ form.discount.label }}:</label>
@@ -84,5 +86,51 @@
   </div>
   <!-- / Content -->
 
-  {% endblock content %}
 </div>
+<script>
+let customer = document.getElementById("id_customer");
+let procedure = document.getElementById("id_procedure");
+let total_value = document.getElementById("id_total_value");
+let discount = document.getElementById("id_discount");
+let customer_type = "";
+
+function urlContainsText(url, text) {
+  return url.indexOf(text) !== -1;
+}
+
+var url = window.location.href;
+
+if(urlContainsText(url,'edit')){
+  fetch(`/customer/get_type/?customer_id=${customer.value}`)
+            .then(response => response.json())
+            .then(data => {
+                customer_type = data.type;
+            })
+            .catch(error => console.error('Erro:', error));
+}
+
+customer.addEventListener('change', function(){
+    fetch(`/customer/get_type/?customer_id=${customer.value}`)
+            .then(response => response.json())
+            .then(data => {
+                customer_type = data.type;
+            })
+            .catch(error => console.error('Erro:', error));
+});
+
+
+procedure.addEventListener('change', function(){
+  fetch(`/procedure/get_value_type/?procedure_id=${procedure.value}&customer_type=${customer_type}`)
+          .then(response => response.json())
+          .then(data => {
+              total_value.value = data.value;
+              discount.value = 0
+          })
+          .catch(error => console.error('Erro:', error));
+});
+
+discount.addEventListener('change', function(){
+  total_value.value -= discount.value;
+});
+</script>
+{% endblock content %}

@@ -60,20 +60,24 @@ class Exam(models.Model):
         'Pago': 'Pago',
         'Pendente': 'Pendente'
     }
-    name = models.CharField(max_length=50, null=False)
-    specie = models.ForeignKey(Specie, on_delete=models.CASCADE)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    gender = models.CharField(max_length=1, choices=GENDER)
-    age = models.CharField(max_length=10, choices=AGE)
-    owner = models.CharField(max_length=50)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    procedure = models.ForeignKey(Procedure, on_delete=models.CASCADE)
-    discount = models.DecimalField(max_digits=10, decimal_places=2)
-    total_value = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    payment = models.CharField(max_length=30, default='Pendente', choices=PAYMENT)
-    created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    name = models.CharField(max_length=50, null=False, blank=False)
+    specie = models.ForeignKey(Specie, on_delete=models.PROTECT,null=False, blank=False)
+    race = models.ForeignKey(Race, on_delete=models.PROTECT, null=False, blank=False)
+    gender = models.CharField(max_length=1, choices=GENDER, null=False, blank=False)
+    age = models.CharField(max_length=10, choices=AGE,null=False, blank=False)
+    owner = models.CharField(max_length=50, null=False, blank=False)
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT, null=False, blank=False)
+    procedure = models.ForeignKey(Procedure, on_delete=models.PROTECT, null=False, blank=False)
+    discount = models.DecimalField(max_digits=10, decimal_places=2, blank=False)
+    total_value = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=False, blank=False)
+    payment = models.CharField(max_length=30, default='Pendente', choices=PAYMENT, null=False, blank=False)
+    created_at = models.DateTimeField(editable=False, auto_now_add=True, null=False, blank=False)
     status = models.BooleanField(null=True)
     observation = models.TextField(max_length=500, null=True, blank=True)
+    deadline_to_finish = models.DateTimeField(null=True)
+    cod_exam = models.CharField(max_length=50, null=True)
+    finished_at = models.DateTimeField(null=True)
+    days_elapsed = models.IntegerField(null=True)
 
     def __str__(self):
         return self.name
