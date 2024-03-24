@@ -1,7 +1,11 @@
 from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import UpdateView, CreateView, ListView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from datetime import timedelta, datetime
+from django.utils import timezone
 from .forms import *
 from .models import *
 
@@ -30,8 +34,10 @@ class ExamCreateView(CreateView):
     success_url = reverse_lazy('list_exams')
 
     def form_valid(self, form):
-        procedure = Procedure.objects.get(pk=form.instance.procedure.pk)
-        form.instance.deadline_to_finish = datetime.now() + timedelta(procedure.deadline_in_days)
+        procedure_obj = Procedure.objects.get(pk=form.instance.procedure.pk)
+        count_exam = Exam.objects.filter(procedure=procedure_obj.pk).count()
+        form.instance.cod_exam = procedure_obj.acronym + '000' + str(count_exam+1)
+        form.instance.deadline_to_finish = datetime.now() + timedelta(procedure_obj.deadline_in_days)
         return super().form_valid(form)
     
 
@@ -41,10 +47,34 @@ class ExamUpdateView(UpdateView):
     template_name = "exams/exams_form.html"
     success_url = reverse_lazy('list_exams')
 
+    def form_valid(self, form):
+        procedure_obj = Procedure.objects.get(pk=form.instance.procedure.pk)
+        count_exam = Exam.objects.filter(procedure=procedure_obj.pk).count()
+        form.instance.cod_exam = procedure_obj.acronym + '000' + str(count_exam+1)
+        form.instance.deadline_to_finish = datetime.now() + timedelta(procedure_obj.deadline_in_days)
+        return super().form_valid(form)
+
 class ExamDeleteView(DeleteView):
     model = Exam
     template_name = 'exams/delete_exam.html'
     success_url = reverse_lazy('list_exams')
+
+def FinishExam(request):
+    if request.method == 'POST':
+        exam_id = request.POST.get('exam_id')
+        exam = Exam.objects.get(pk=exam_id)
+
+        exam.finished_at = timezone.now()
+        days_offset = timezone.now() - exam.created_at
+        exam.days_elapsed = days_offset.days
+        exam.status = True
+
+        exam.save()
+
+        messages.success(request, "Exame Concluído com Sucesso")
+        return redirect('show_exam', pk=exam_id)
+    else:
+        return redirect('list_exams')
 
 # Species
 class SpecieListView(ListView):
@@ -153,3 +183,15 @@ def ProcedureGetValueType(request):
     }
     return JsonResponse(data)
 
+
+#Login
+
+class ExamLoginView(LoginView):
+    redirect_authenticated_user = True
+    
+    def get_success_url(self):
+        return reverse_lazy('list_exams') 
+    
+    def form_invalid(self, form):
+        messages.error(self.request,'Invalid username or password')
+        return self.render_to_response(self.get_context_data(form=form))

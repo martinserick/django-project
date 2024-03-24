@@ -1,12 +1,15 @@
 from django.urls import path
 from .views import *
+from .forms import CustomAuthenticationForm
 
 urlpatterns = [
+    path('login/', ExamLoginView.as_view(authentication_form=CustomAuthenticationForm),name='login'),
     path("", ExamListView.as_view(), name="list_exams"),
     path("exam/create/", ExamCreateView.as_view(), name="create_exams"),
     path("exam/edit/<int:pk>", ExamUpdateView.as_view(), name="update_exams"),
     path("exam/show/<int:pk>", ExamDetailView.as_view(), name="show_exam"),
     path("exam/delete/<int:pk>", ExamDeleteView.as_view(), name="delete_exam"),
+    path("exam/finish/", FinishExam, name="finish_exam"),
 
     path("specie/list/", SpecieListView.as_view(), name="list_species"),
     path("specie/create/", SpecieCreateView.as_view(), name="create_species"),

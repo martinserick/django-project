@@ -81,3 +81,6 @@ class Exam(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def finished(self):
+        return self.finished_at is not None

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
- <!-- Content -->
 
  <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row invoice-preview">
@@ -19,13 +18,21 @@
                 <p class="mb-0">Dono: {{exam.owner|upper}}</p>
               </div>
               <div>
-                <h4>Código #{{exam.pk}}</h4>
+                <h4>Código #{{exam.cod_exam}}</h4>
                 <div class="mb-2">
-                  <span class="me-1">Criada em: {{exam.created_at}}</span>
+                  <span class="me-1">Criada em: {{exam.created_at|date:'d/m/Y H:i'}}</span>
                 </div>
                 <div class="mb-2">
-                  <span class="me-1">Data Prevista: {{exam.deadline_to_finish}}</span>
+                  <span class="me-1">Data Prevista: {{exam.deadline_to_finish|date:'d/m/Y H:i'}}</span>
                 </div>
+                {% if exam.finished %}
+                  <div class="mb-2">
+                    <span class="me-1">Finalizada em: {{exam.finished_at|date:'d/m/Y H:i'}}</span>
+                  </div>
+                  <div class="mb-2">
+                    <span class="me-1">Dias decorridos: {{exam.days_elapsed}}</span>
+                  </div>                
+                {% endif %}
                 <div>
                   <span class="me-1">Pagamento:</span>
                   <span class="fw-semibold">{{exam.payment|upper}}</span>
@@ -37,7 +44,7 @@
           <div class="card-body">
             <div class="row p-sm-3 p-0">
               <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
-                <h6 class="pb-2">Dados do Exame:</h6>
+                <h4 class="pb-2">Dados do Exame:</h4>
                 <p class="mb-1">Procedimento: {{exam.procedure.name|upper}}</p>
                 <p class="mb-1">Cliente: {{exam.customer.name|upper}}</p>
                 <p class="mb-1">Prazo em dias: {{exam.procedure.deadline_in_days|upper}}</p>
@@ -50,6 +57,12 @@
                 {% endif %}
                 <p class="mb-1">Desconto: {{exam.discount|upper}}</p>
                 <p class="mb-1">Valor: R${{exam.total_value|upper}}</p>
+                {% if exam.status %}
+                  <p class="mb-1 mt-4"><span class="badge bg-label-success">Finalizado</span></p>
+                {% else %}
+                  <p class="mb-1 mt-4"><span class="badge bg-label-warning">Em andamento</span></p>
+                {% endif %}
+                
               </div>
             </div>
           </div>
@@ -67,16 +80,40 @@
           </div>
         </div>
       </div>
-      <div class="row flex">
+      <div class="col-12 mt-1 d-lg-flex justify-content-between">
         <div>
-          <a href="{% url "list_exams" %}">
-            <button class="btn btn-secondary mt-3 mb-3">Voltar</button>
-          </a>
+          {% if exam.finished %}
+          <form action="{% url "finish_exam" %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="exam_id" value="{{exam.pk}}">
+            <button type="submit" class="btn btn-success mt-3 mb-3" disabled title="Esse Exame já foi encerrado, não pode ser encerrado novamente!">Concluir</button>
+          </form>
+          {% else %}
+          <form action="{% url "finish_exam" %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="exam_id" value="{{exam.pk}}">
+            <button type="submit" class="btn btn-success mt-3 mb-3">Concluir</button>
+          </form>
+          {% endif %}         
+        </div>
+        <div>
           <a href="{% url "delete_exam" pk=exam.pk %}">
             <button class="btn btn-danger mt-3 mb-3">Excluir</button>
           </a>
+          <a href="{% url "list_exams" %}">
+            <button class="btn btn-secondary mt-3 mb-3">Voltar</button>
+          </a>
         </div>
       </div>
+      {% if messages %}
+          {% for message in messages %}
+                <div class="alert alert-success alert-dismissible d-flex align-items-center" role="alert">
+                  <i class="bx bx-xs bx-desktop me-2"></i>
+                    {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div></li>
+          {% endfor %}
+      {% endif %}
       <!-- /Invoice -->
     </div>
 <!-- / Content -->

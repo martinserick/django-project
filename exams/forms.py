@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import AuthenticationForm
 from django.forms import ModelForm, TextInput, Select, NumberInput, Textarea
 from .models import *
 
@@ -99,4 +100,12 @@ class CustomerForm(ModelForm):
             'type': 'Tipo',
             'email': 'E-mail'
         }
+
+
+class CustomAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Adicione a classe CSS desejada ao campo de entrada
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['password'].widget.attrs['class'] = 'form-control'
 
