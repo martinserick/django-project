@@ -221,7 +221,7 @@
                               </div>
                             </div>
                             <div class="flex-grow-1">
-                              <span class="fw-semibold d-block lh-1">John Doe</span>
+                              <span class="fw-semibold d-block lh-1">{{request.user.first_name}}</span>
                               <small>Admin</small>
                             </div>
                           </div>
@@ -231,7 +231,7 @@
                         <div class="dropdown-divider"></div>
                       </li>
                       <li>
-                        <a class="dropdown-item" href="auth-login-cover.html" target="_blank">
+                        <a class="dropdown-item" href="{% url 'logout' %}">
                           <i class="bx bx-power-off me-2"></i>
                           <span class="align-middle">Log Out</span>
                         </a>
@@ -277,6 +277,26 @@
       <div class="drag-target"></div>
     </div>
     <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src={% static "/vendor/libs/jquery/jquery.js" %}></script>
+    <script src={% static "/vendor/libs/popper/popper.js" %}></script>
+    <script src={% static "/vendor/js/bootstrap.js" %}></script>
+    <script src={% static "/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" %}></script>
+
+    <script src={% static "/vendor/libs/hammer/hammer.js" %}></script>
+
+    <script src={% static "/vendor/libs/i18n/i18n.js" %}></script>
+    <script src={% static "/vendor/libs/typeahead-js/typeahead.js" %}></script>
+
+    <script src={% static "/vendor/js/menu.js" %}></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src={% static "/js/main.js" %}></script>
 
     <!-- Page JS -->
   </body>

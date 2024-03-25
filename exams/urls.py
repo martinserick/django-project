@@ -1,9 +1,12 @@
 from django.urls import path
 from .views import *
 from .forms import CustomAuthenticationForm
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    path('login/', ExamLoginView.as_view(authentication_form=CustomAuthenticationForm),name='login'),
+    path('login/', ExamLoginView.as_view(authentication_form=CustomAuthenticationForm), name='login'),
+    path('logout/', logoutSystem, name='logout'),
+
     path("", ExamListView.as_view(), name="list_exams"),
     path("exam/create/", ExamCreateView.as_view(), name="create_exams"),
     path("exam/edit/<int:pk>", ExamUpdateView.as_view(), name="update_exams"),

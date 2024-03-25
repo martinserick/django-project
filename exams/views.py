@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
@@ -6,12 +7,13 @@ from django.views.generic import UpdateView, CreateView, ListView, DeleteView, D
 from django.urls import reverse_lazy
 from datetime import timedelta, datetime
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 from .models import *
 
 
 # Exams
-class ExamListView(ListView):
+class ExamListView(LoginRequiredMixin, ListView):
     model = Exam
     template_name = "exams/list_exams.html"
 
@@ -22,12 +24,12 @@ class ExamListView(ListView):
             queryset = queryset.filter(customer__name__icontains=filter)
         return queryset
     
-class ExamDetailView(DetailView):
+class ExamDetailView(LoginRequiredMixin, DetailView):
     model = Exam
     template_name = "exams/show_exam.html"
 
 
-class ExamCreateView(CreateView):
+class ExamCreateView(LoginRequiredMixin, CreateView):
     model = Exam
     form_class = ExamForm
     template_name = "exams/exams_form.html"
@@ -41,7 +43,7 @@ class ExamCreateView(CreateView):
         return super().form_valid(form)
     
 
-class ExamUpdateView(UpdateView):
+class ExamUpdateView(LoginRequiredMixin, UpdateView):
     model = Exam
     form_class = ExamForm
     template_name = "exams/exams_form.html"
@@ -54,7 +56,7 @@ class ExamUpdateView(UpdateView):
         form.instance.deadline_to_finish = datetime.now() + timedelta(procedure_obj.deadline_in_days)
         return super().form_valid(form)
 
-class ExamDeleteView(DeleteView):
+class ExamDeleteView(LoginRequiredMixin, DeleteView):
     model = Exam
     template_name = 'exams/delete_exam.html'
     success_url = reverse_lazy('list_exams')
@@ -77,17 +79,17 @@ def FinishExam(request):
         return redirect('list_exams')
 
 # Species
-class SpecieListView(ListView):
+class SpecieListView(LoginRequiredMixin, ListView):
     model = Specie
     template_name = "species/list_species.html"
 
-class SpecieCreateView(CreateView):
+class SpecieCreateView(LoginRequiredMixin, CreateView):
     model = Specie
     template_name = "species/species_form.html"
     form_class = SpecieForm
     success_url = reverse_lazy('list_species')
 
-class SpecieUpdateView(UpdateView):
+class SpecieUpdateView(LoginRequiredMixin, UpdateView):
     model = Specie
     template_name = "species/species_form.html"
     form_class = SpecieForm
@@ -95,18 +97,18 @@ class SpecieUpdateView(UpdateView):
 
 
 # Races
-class RaceListView(ListView):
+class RaceListView(LoginRequiredMixin, ListView):
     model = Race
     template_name = "races/list_races.html"
 
 
-class RaceCreateView(CreateView):
+class RaceCreateView(LoginRequiredMixin, CreateView):
     model = Race
     template_name = "races/races_form.html"
     form_class = RaceForm
     success_url = reverse_lazy('list_races')
 
-class RaceUpdateView(UpdateView):
+class RaceUpdateView(LoginRequiredMixin, UpdateView):
     model = Race
     template_name = "races/races_form.html"
     form_class = RaceForm
@@ -114,20 +116,20 @@ class RaceUpdateView(UpdateView):
 
 # Procedures
 
-class ProcedureListView(ListView):
+class ProcedureListView(LoginRequiredMixin, ListView):
     model = Procedure
     template_name = "procedures/list_procedures.html"
 
 
 
-class ProcedureCreateView(CreateView):
+class ProcedureCreateView(LoginRequiredMixin, CreateView):
     model = Procedure
     template_name = "procedures/procedure_form.html"
     form_class = ProcedureForm
     success_url = reverse_lazy('list_procedures')
     
 
-class ProcedureUpdateView(UpdateView):
+class ProcedureUpdateView(LoginRequiredMixin, UpdateView):
     model = Procedure
     form_class = ProcedureForm
     template_name = "procedures/procedure_form.html"
@@ -135,23 +137,23 @@ class ProcedureUpdateView(UpdateView):
 
 # Customers
 
-class CustomerListView(ListView):
+class CustomerListView(LoginRequiredMixin, ListView):
     model = Customer
     template_name = "customers/list_customers.html"
 
-class CustomerCreateView(CreateView):
+class CustomerCreateView(LoginRequiredMixin, CreateView):
     model = Customer
     template_name = "customers/customer_form.html"
     form_class = CustomerForm
     success_url = reverse_lazy('list_customers')
 
-class CustomerUpdateView(UpdateView):
+class CustomerUpdateView(LoginRequiredMixin, UpdateView):
     model = Customer
     template_name = "customers/customer_form.html"
     form_class = CustomerForm
     success_url = reverse_lazy('list_customers')
 
-class CustomerDeleteView(DeleteView):
+class CustomerDeleteView(LoginRequiredMixin, DeleteView):
     model = Customer
     template_name = 'customers/delete_customer.html'
     success_url = reverse_lazy('list_customers')
@@ -193,5 +195,9 @@ class ExamLoginView(LoginView):
         return reverse_lazy('list_exams') 
     
     def form_invalid(self, form):
-        messages.error(self.request,'Invalid username or password')
+        messages.error(self.request,'Usuário ou senha inválidos!')
         return self.render_to_response(self.get_context_data(form=form))
+    
+def logoutSystem(request):
+    logout(request)
+    return redirect('login')

@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 
@@ -46,7 +45,7 @@ lang="en"
     <link rel="stylesheet" href={% static "/vendor/libs/typeahead-js/typeahead.css" %} />
 
     <!-- Page CSS -->
-
+    <link rel="stylesheet" href={% static "/vendor/css/pages/page-auth.css" %}/>
     <!-- Helpers -->
     <script src={% static "/vendor/js/helpers.js" %}></script>
 
@@ -70,13 +69,13 @@ lang="en"
               <div class="app-brand justify-content-center">
                 <a href="index.html" class="app-brand-link gap-2">
                   <span class="app-brand-logo demo">
-                    <img src="" alt="">
+                    <img src="{% static "/img/rd_logo.png" %}" width="30px" alt="Logo Empresa">
                   </span>
-                  <span class="app-brand-text demo h3 mb-0 fw-bold">Frest</span>
+                  <span class="app-brand-text demo h3 mb-0 fw-bold">Patologia Veterninária</span>
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-2">RD Patologia Veterinária</h4>
+              <h4 class="mb-2">Sistema de Cadastro de Exames</h4>
               <p class="mb-4">Bem vindo, faça login para acessar o sistema</p>
 
               <form class="mb-3" method="POST">{% csrf_token %}
@@ -92,41 +91,17 @@ lang="en"
                     {{form.password}}
                   </div>
                 </div>
+                {% if messages %}
+                  {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                      {{ message }}
+                    </div>
+                  {% endfor %}
+                {% endif %}
                 <div class="mb-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                    <label class="form-check-label" for="remember-me"> Remember Me </label>
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                  <button class="btn btn-primary d-grid w-100" type="submit">Entrar</button>
                 </div>
               </form>
-
-              <p class="text-center">
-                <span>New on our platform?</span>
-                <a href="auth-register-basic.html">
-                  <span>Create an account</span>
-                </a>
-              </p>
-
-              <div class="divider my-4">
-                <div class="divider-text">or</div>
-              </div>
-
-              <div class="d-flex justify-content-center">
-                <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">
-                  <i class="tf-icons bx bxl-facebook"></i>
-                </a>
-
-                <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">
-                  <i class="tf-icons bx bxl-google-plus"></i>
-                </a>
-
-                <a href="javascript:;" class="btn btn-icon btn-label-twitter">
-                  <i class="tf-icons bx bxl-twitter"></i>
-                </a>
-              </div>
             </div>
           </div>
           <!-- /Register -->
