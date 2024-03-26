@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Race(models.Model):
@@ -78,6 +78,7 @@ class Exam(models.Model):
     cod_exam = models.CharField(max_length=50, null=True)
     finished_at = models.DateTimeField(null=True)
     days_elapsed = models.IntegerField(null=True)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.name

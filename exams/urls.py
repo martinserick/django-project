@@ -17,10 +17,12 @@ urlpatterns = [
     path("specie/list/", SpecieListView.as_view(), name="list_species"),
     path("specie/create/", SpecieCreateView.as_view(), name="create_species"),
     path("specie/edit/<int:pk>", SpecieUpdateView.as_view(), name="update_species"),
+    path("specie/delete/<int:pk>", SpecieDeleteView.as_view(), name="delete_specie"),
 
     path("race/list/", RaceListView.as_view(), name="list_races"),
     path("race/create/", RaceCreateView.as_view(), name="create_races"),
     path("race/edit/<int:pk>", RaceUpdateView.as_view(), name="update_races"),
+    path("race/delete/<int:pk>", RaceDeleteView.as_view(), name="delete_race"),
 
     path("customer/list/", CustomerListView.as_view(), name="list_customers"),
     path("customer/create/", CustomerCreateView.as_view(), name="create_customers"),
@@ -31,6 +33,7 @@ urlpatterns = [
     path("procedure/list/", ProcedureListView.as_view(), name="list_procedures"),
     path("procedure/create/", ProcedureCreateView.as_view(), name="create_procedures"),
     path("procedure/edit/<int:pk>", ProcedureUpdateView.as_view(), name="update_procedures"),
+    path("procedure/delete/<int:pk>", ProcedureDeleteView.as_view(), name="delete_procedure"),
     path("procedure/get_value_type/", ProcedureGetValueType, name="procedure_get_value_type"),
 
 ]
