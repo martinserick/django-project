@@ -36,4 +36,6 @@ urlpatterns = [
     path("procedure/delete/<int:pk>", ProcedureDeleteView.as_view(), name="delete_procedure"),
     path("procedure/get_value_type/", ProcedureGetValueType, name="procedure_get_value_type"),
 
+    path("report/", report, name='report'),
+
 ]

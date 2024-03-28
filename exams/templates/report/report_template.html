@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Geração de relatórios{% endblock title %}
+
+{% block content %}
+<!-- Content -->
+
+<div class="flex-grow-1 container-fluid">
+    <h4 class="py-3 breadcrumb-wrapper mb-4">
+      <span class="text-muted fw-light">Filtros /</span>Relatórios
+    </h4>
+  
+    <!-- Basic Layout & Basic with Icons -->
+    <div class="row">
+      <!-- Basic Layout -->
+      <div class="col-xxl">
+        <div class="card mb-4">
+          <div
+            class="card-header d-flex align-items-center justify-content-between"
+          >
+            <h5 class="mb-0">Cadastro de Clientes</h5>
+          </div>
+          <div class="card-body">
+            {% if errors %}
+              <div class="alert alert-danger">
+                  <strong>O seguinte(s) erro(s) ocorreu(ram):</strong>
+                  <ul>
+                      {% for error in errors %}
+                          <li>{{ error }}</li>
+                      {% endfor %}
+                  </ul>
+              </div>
+            {% endif %}
+            <form method="POST">{% csrf_token %}
+              <div class="row mb-3 text-end">
+                <label class="col-sm-1 col-form-label">{{ form.customer_name.label }}:</label>
+                <div class="col-sm-1">{{form.customer_name}}</div>
+                <label class="col-sm-1 col-form-label">{{ form.initial_date.label }}:</label>
+                <div class="col-sm-2">{{form.initial_date}}</div>
+                <label class="col-sm-1 col-form-label">{{ form.final_date.label }}:</label>
+                <div class="col-sm-2">{{form.final_date}}</div>
+                <label class="col-sm-1 col-form-label">{{ form.status.label }}:</label>
+                <div class="col-sm-1">{{form.status}}</div>
+                <label class="col-sm-1 col-form-label">{{ form.payment.label }}:</label>
+                <div class="col-sm-1">{{form.payment}}</div>
+              </div>
+              <div class="row justify-content-start">
+                <div class="col-sm-5">
+                  <button type="submit" class="btn btn-primary">Filtrar</button>
+                  <a href="{% url "list_customers" %}">
+                    <button type="button" class="btn btn-secondary mt-3 mb-3">Voltar</button>
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- / Content -->
+  
+{% endblock content %}

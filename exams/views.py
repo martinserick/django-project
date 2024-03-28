@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.contrib.auth import logout
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import UpdateView, CreateView, ListView, DeleteView, DetailView
@@ -343,3 +343,36 @@ class ExamLoginView(LoginView):
 def logoutSystem(request):
     logout(request)
     return redirect('login')
+
+def report(request):
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            # Obter dados do formulário
+            customer_name = form.cleaned_data['customer_name']
+            initial_date = form.cleaned_data['initial_date']
+            final_date = form.cleaned_data['final_date']
+            status = form.cleaned_data['status']
+            payment = form.cleaned_data['payment']
+
+            # Filtrar o modelo com base nos dados do formulário
+            query = Exam.objects.all()
+            if customer_name:
+                query = query.filter(customer=customer_name)
+            if initial_date:
+                query = query.filter(created_at__date__gte=initial_date)
+            if final_date:
+                query = query.filter(created_at__date__lte=final_date)
+            if status:
+                query = query.filter(status=status)
+            if payment:
+                query = query.filter(payment=payment)
+
+            return render(request, 'report/report_template.html', {'form': form, 'query': query, 'aba_ativa': 'report'})
+    else:
+        form = ReportForm()
+        context = {
+            'aba_ativa': 'report',
+            'form': form
+        }
+        return render(request, 'report/report_template.html', context=context)
