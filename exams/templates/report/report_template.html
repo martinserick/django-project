@@ -31,7 +31,7 @@
                   </ul>
               </div>
             {% endif %}
-            <form method="POST">{% csrf_token %}
+            <form method="GET">
               <div class="row mb-3 text-end">
                 <label class="col-sm-1 col-form-label">{{ form.customer_name.label }}:</label>
                 <div class="col-sm-1">{{form.customer_name}}</div>
@@ -57,6 +57,47 @@
         </div>
       </div>
     </div>
+{% if query %}
+  <div class="card">
+    <h5 class="card-header">Exames</h5>
+    <div class="table-responsive text-nowrap text-center">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Espécie</th>
+            <th>Raça</th>
+            <th>Exame</th>
+            <th>Dono</th>
+            <th>Cliente</th>
+            <th>Valor</th>
+            <th>Pagamento</th>
+            <th>Criado em</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          {% for exam in query %}          
+          <tr>
+            <td>{{ exam.name }}</td>
+            <td>{{ exam.specie.name }}</td>
+            <td>{{ exam.race.name }}</td>
+            <td>{{ exam.procedure.name }}</td>
+            <td>{{exam.owner}}</td>
+            <td>{{ exam.customer.name }}</td>
+            <td>{{ exam.total_value }}</td>
+            <td>{{ exam.payment }}</td>
+            <td>{{ exam.created_at | date:"d/m/Y H:i" }}</td>
+          </tr> 
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <a href="{% url "report" %}?download=generate&{{ request.GET.urlencode }}" target="_blank">
+  <button class="btn btn-primary mt-3 mb-3">Download do Relatório</button>
+  </a>
+  </div>
+{% endif %}
     <!-- / Content -->
   
 {% endblock content %}

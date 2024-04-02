@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Exames</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #header {
+            text-align: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        #header img {
+            max-width: 200px;
+            height: auto;
+        }
+        #content {
+            margin: 20px auto;
+            width: 80%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #e9e9e9;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <img src="{% static "img/backgrounds/1.jpg" %}" alt="Logo" width="200px" height="100px">
+    </div>
+    <div id="content">
+        <h1 style="text-align: center;">Exames - {{query.first.customer.name}}</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Espécie</th>
+              <th>Raça</th>
+              <th>Exame</th>
+              <th>Dono</th>
+              <th>Cliente</th>
+              <th>Valor</th>
+              <th>Pagamento</th>
+              <th>Criado em</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            {% for exam in query %}
+            <tr>
+              <td>{{ exam.name }}</td>
+              <td>{{ exam.specie.name }}</td>
+              <td>{{ exam.race.name }}</td>
+              <td>{{ exam.procedure.name }}</td>
+              <td>{{exam.owner}}</td>
+              <td>{{ exam.customer.name }}</td>
+              <td>{{ exam.total_value }}</td>
+              <td>{{ exam.payment }}</td>
+              <td>{{ exam.created_at | date:"d/m/Y H:i" }}</td>
+            </tr> 
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+</body>
+</html>

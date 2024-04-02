@@ -37,5 +37,6 @@ urlpatterns = [
     path("procedure/get_value_type/", ProcedureGetValueType, name="procedure_get_value_type"),
 
     path("report/", report, name='report'),
+    path('report/download/', DownloadPDFView.as_view(), name='download_report')
 
 ]
