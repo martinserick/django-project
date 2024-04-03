@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import *
 from .forms import CustomAuthenticationForm
-from django.contrib.auth.views import LogoutView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('login/', ExamLoginView.as_view(authentication_form=CustomAuthenticationForm), name='login'),
@@ -37,6 +38,5 @@ urlpatterns = [
     path("procedure/get_value_type/", ProcedureGetValueType, name="procedure_get_value_type"),
 
     path("report/", report, name='report'),
-    path('report/download/', DownloadPDFView.as_view(), name='download_report')
 
 ]

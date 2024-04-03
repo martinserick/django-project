@@ -114,5 +114,5 @@ class ReportForm(forms.Form):
     customer_name = forms.ModelChoiceField(queryset=Customer.objects.all(), label='Nome do Cliente', required=False, widget=forms.Select(attrs={'class': 'form-select'}))
     initial_date = forms.DateField(label='Data Inicial', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}))
     final_date = forms.DateField(label='Data Final', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}))
-    status = forms.ChoiceField(choices=((True, 'Finalizado'), (False, 'Em Andamento')), label='Status', required=False, widget=forms.Select(attrs={'class': 'form-select'}))
-    payment = forms.ChoiceField(choices=(('Pago', 'Pago'), ('Pendente', 'Pendente')), label='Status de Pagamento', required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    status = forms.ChoiceField(choices=(('', '---'),(True, 'Finalizado'), (False, 'Em Andamento')), label='Status', required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    payment = forms.ChoiceField(choices=(('', '---'),('Pago', 'Pago'), ('Pendente', 'Pendente')), label='Status de Pagamento', required=False, widget=forms.Select(attrs={'class': 'form-select'}))

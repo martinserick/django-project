@@ -3,7 +3,7 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.views import LoginView
-from django.views.generic import UpdateView, CreateView, ListView, DeleteView, DetailView, View
+from django.views.generic import UpdateView, CreateView, ListView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from datetime import timedelta, datetime
 from django.utils import timezone
@@ -12,8 +12,9 @@ from .forms import *
 from .models import *
 from .utils import GeneratePDFMixin
 from datetime import datetime
-
 # Exams
+
+
 class ExamListView(LoginRequiredMixin, ListView):
     model = Exam
     template_name = "exams/list_exams.html"
@@ -49,7 +50,7 @@ class ExamCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         procedure_obj = Procedure.objects.get(pk=form.instance.procedure.pk)
-        count_exam = Exam.objects.filter(procedure=procedure_obj.pk).count()
+        count_exam = Exam.objects.filter(procedure=procedure_obj.pk).count() + Exam.deleted_objects.filter(procedure=procedure_obj.pk).count()
         form.instance.cod_exam = procedure_obj.acronym + '000' + str(count_exam+1)
         form.instance.deadline_to_finish = datetime.now() + timedelta(procedure_obj.deadline_in_days)
         form.instance.user = self.request.user
@@ -67,18 +68,10 @@ class ExamUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ExamForm
     template_name = "exams/exams_form.html"
     success_url = reverse_lazy('list_exams')
-
-    def form_valid(self, form):
-        procedure_obj = Procedure.objects.get(pk=form.instance.procedure.pk)
-        count_exam = Exam.objects.filter(procedure=procedure_obj.pk).count()
-        form.instance.cod_exam = procedure_obj.acronym + '000' + str(count_exam+1)
-        form.instance.deadline_to_finish = datetime.now() + timedelta(procedure_obj.deadline_in_days)
-        return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'update_exams'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'update_exams'
         return context
 
 class ExamDeleteView(LoginRequiredMixin, DeleteView):
@@ -341,28 +334,14 @@ def logoutSystem(request):
     return redirect('login')
 
 def report(request):
-    if request.GET.get('download') != 'generate':
+    if len(request.GET) == 0:
         form = ReportForm(request.GET)
-        if form.is_valid():
-            customer_name = form.cleaned_data['customer_name']
-            initial_date = form.cleaned_data['initial_date']
-            final_date = form.cleaned_data['final_date']
-            status = form.cleaned_data['status']
-            payment = form.cleaned_data['payment']
-
-            query = Exam.objects.all()
-            if customer_name:
-                query = query.filter(customer__name=customer_name)
-            if initial_date:
-                query = query.filter(created_at__date__gte=initial_date)
-            if final_date:
-                query = query.filter(created_at__date__lte=final_date)
-            if status:
-                query = query.filter(status=status)
-            if payment:
-                query = query.filter(payment=payment)
-
-            return render(request, 'report/report_template.html', {'form': form, 'query': query, 'aba_ativa': 'report'})
+        form = ReportForm()
+        context = {
+            'aba_ativa': 'report',
+            'form': form
+        }
+        return render(request, 'report/report_template.html', context=context)
     
     else:
         form = ReportForm(request.GET)
@@ -385,22 +364,16 @@ def report(request):
             if payment:
                 query = query.filter(payment=payment)
 
-            pdf = GeneratePDFMixin()
-            return pdf.render_html_to_pdf('report/download_template.html', {'query': query})
+            if request.GET.get('download') == 'generate':
+                pdf = GeneratePDFMixin()
+                return pdf.render_html_to_pdf('report/download_template.html', {'query': query} )
+            
+            else:
+                context = {
+                    'aba_ativa': 'report',
+                    'form': form,
+                    'query': query
+                }
+                return render(request, 'report/report_template.html', context=context)
                 
-    form = ReportForm()
-    context = {
-        'aba_ativa': 'report',
-        'form': form
-    }
-    return render(request, 'report/report_template.html', context=context)
     
-class DownloadPDFView(View, LoginRequiredMixin, GeneratePDFMixin):
-
-    def get(self, request, *args, **kwargs):
-        query = request.session.get('query')
-        data = {
-            'query': query
-        }
-        pdf = GeneratePDFMixin()
-        return pdf.render_html_to_pdf('report/download_template.html', data)

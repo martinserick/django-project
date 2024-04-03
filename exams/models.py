@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_softdelete.models import SoftDeleteModel 
 # Create your models here.
 
 class Race(models.Model):
@@ -42,7 +43,7 @@ class Procedure(models.Model):
     def __str__(self) -> str:
         return self.name
 
-class Exam(models.Model):
+class Exam(SoftDeleteModel):
     AGE = {}
     for meses in range(1, 12):
         AGE[f"{meses}M"] = f"{meses} Mes{'es' if meses != 1 else ''}"
