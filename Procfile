@@ -1,0 +1,1 @@
+web: gunicorn inforedeti.wsgi --log-file -
