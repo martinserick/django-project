@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Geração de relatórios{% endblock title %}
+
+{% block content %}
+<!-- Content -->
+
+<div class="flex-grow-1 container-fluid">
+    <h4 class="py-3 breadcrumb-wrapper mb-4">
+      <span class="text-muted fw-light">Filtros /</span>Relatórios
+    </h4>
+  
+    <!-- Basic Layout & Basic with Icons -->
+    <div class="row">
+      <!-- Basic Layout -->
+      <div class="col-xxl">
+        <div class="card mb-4">
+          <div
+            class="card-header d-flex align-items-center justify-content-between"
+          >
+            <h5 class="mb-0">Cadastro de Clientes</h5>
+          </div>
+          <div class="card-body">
+            {% if errors %}
+              <div class="alert alert-danger">
+                  <strong>O seguinte(s) erro(s) ocorreu(ram):</strong>
+                  <ul>
+                      {% for error in errors %}
+                          <li>{{ error }}</li>
+                      {% endfor %}
+                  </ul>
+              </div>
+            {% endif %}
+            <form method="GET">
+              <div class="row mb-3 text-end">
+                <label class="col-sm-1 col-form-label">{{ form.customer_name.label }}:</label>
+                <div class="col-sm-1">{{form.customer_name}}</div>
+                <label class="col-sm-1 col-form-label">{{ form.initial_date.label }}:</label>
+                <div class="col-sm-2">{{form.initial_date}}</div>
+                <label class="col-sm-1 col-form-label">{{ form.final_date.label }}:</label>
+                <div class="col-sm-2">{{form.final_date}}</div>
+                <label class="col-sm-1 col-form-label">{{ form.status.label }}:</label>
+                <div class="col-sm-1">{{form.status}}</div>
+                <label class="col-sm-1 col-form-label">{{ form.payment.label }}:</label>
+                <div class="col-sm-1">{{form.payment}}</div>
+              </div>
+              <div class="row justify-content-start">
+                <div class="col-sm-5">
+                  <button type="submit" class="btn btn-primary">Filtrar</button>
+                  <a href="{% url "list_customers" %}">
+                    <button type="button" class="btn btn-secondary mt-3 mb-3">Voltar</button>
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% if query %}
+  <div class="card">
+    <h5 class="card-header">Exames</h5>
+    <div class="table-responsive text-nowrap text-center">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Espécie</th>
+            <th>Raça</th>
+            <th>Exame</th>
+            <th>Dono</th>
+            <th>Cliente</th>
+            <th>Valor</th>
+            <th>Pagamento</th>
+            <th>Criado em</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          {% for exam in query %}          
+          <tr>
+            <td>{{ exam.name }}</td>
+            <td>{{ exam.specie.name }}</td>
+            <td>{{ exam.race.name }}</td>
+            <td>{{ exam.procedure.name }}</td>
+            <td>{{exam.owner}}</td>
+            <td>{{ exam.customer.name }}</td>
+            <td>{{ exam.total_value }}</td>
+            <td>{{ exam.payment }}</td>
+            <td>{{ exam.created_at | date:"d/m/Y H:i" }}</td>
+          </tr> 
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-6 mb-4">
+      <div class="card">
+        <div class="card-body text-center">
+          <div class="avatar avatar-md mx-auto mb-3">
+            <span class="avatar-initial rounded-circle bg-label-info"><i class="bi bi-cash-coin"></i></span>
+          </div>
+          <span class="d-block mb-1 text-nowrap">Valor:</span>
+          <h6 class="mb-0">R${{soma}}</h6>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-6 mb-4">
+      <div class="card">
+        <div class="card-body text-center">
+          <div class="avatar avatar-md mx-auto mb-3">
+            <span class="avatar-initial rounded-circle bg-label-warning"><i class="bi bi-info-circle-fill"></i></span>
+          </div>
+          <span class="d-block mb-1 text-nowrap">Quantidade</span>
+          <h6 class="mb-0">{{total}}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="{% url "report" %}?download=generate&{{ request.GET.urlencode }}" target="_blank">
+  <button class="btn btn-primary mb-3 text-end"><i class="menu-icon bi bi-file-pdf-fill"></i>Download</button>
+  </a>
+  </div>
+{% endif %}
+    <!-- / Content -->
+  
+{% endblock content %}

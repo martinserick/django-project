@@ -93,6 +93,7 @@ let procedure = document.getElementById("id_procedure");
 let total_value = document.getElementById("id_total_value");
 let discount = document.getElementById("id_discount");
 let customer_type = "";
+let total_value_procedure = 0;
 
 function urlContainsText(url, text) {
   return url.indexOf(text) !== -1;
@@ -124,13 +125,14 @@ procedure.addEventListener('change', function(){
           .then(response => response.json())
           .then(data => {
               total_value.value = data.value;
+              total_value_procedure = data.value;
               discount.value = 0
           })
           .catch(error => console.error('Erro:', error));
 });
 
 discount.addEventListener('change', function(){
-  total_value.value -= discount.value;
+  total_value.value = total_value_procedure - discount.value;
 });
 </script>
 {% endblock content %}

@@ -81,18 +81,18 @@
 
           <ul class="menu-inner py-1">
             <!-- Exames -->
-            <li class="menu-item">
+            <li class="menu-item {% if aba_ativa == 'list_exams' or aba_ativa == 'create_exam' or aba_ativa == 'update_exams' or aba_ativa == 'detail_exam' or aba_ativa == 'delete_exam' %}active open{% endif %}">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="bi bi-clipboard2-pulse-fill p-2"></i>
+                <i class=" menu-icon bi bi-clipboard2-pulse-fill "></i>
                 <div data-i18n="Exames">Exames</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'list_exams' or aba_ativa == 'detail_exam' %}active{% endif %}">
                   <a href="{% url "list_exams" %}" class="menu-link">
                     <div data-i18n="Listar Exames">Listar Exames</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'create_exam' or aba_ativa == 'update_exams' or aba_ativa == 'delete_exam' %}active{% endif %}">
                   <a href="{% url "create_exams" %}" class="menu-link">
                     <div data-i18n="Cadastrar Exames">Cadastrar</div>
                   </a>
@@ -100,18 +100,18 @@
               </ul>
             </li>
             <!-- Especies -->
-            <li class="menu-item">
+            <li class="menu-item {% if aba_ativa == 'list_species' or aba_ativa == 'create_species' or aba_ativa == 'update_specie' or aba_ativa == 'delete_specie'%}active open{% endif %}">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="bi bi-clipboard-fill p-2"></i>
+                <i class="menu-icon bi bi-clipboard-fill "></i>
                 <div data-i18n="Espécies">Espécies</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'list_species' %}active{% endif %}">
                   <a href="{% url "list_species" %}" class="menu-link">
                     <div data-i18n="Listar Espécies">Listar Espécies</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'create_species' or aba_ativa == 'update_specie' or aba_ativa == 'delete_specie' %}active{% endif %}">
                   <a href="{% url "create_species" %}" class="menu-link">
                     <div data-i18n="Cadastrar Espécies">Cadastrar Espécies</div>
                   </a>
@@ -119,18 +119,18 @@
               </ul>
             </li>
              <!-- Raça -->
-             <li class="menu-item">
+             <li class="menu-item {% if aba_ativa == 'list_races' or aba_ativa == 'create_race' or aba_ativa == 'update_race' or aba_ativa == 'delete_race'%}active open{% endif %}">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="bi bi-clipboard-fill p-2"></i>
+                <i class="menu-icon bi bi-clipboard-fill "></i>
                 <div data-i18n="Raças">Raças</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'list_races' %}active{% endif %}">
                   <a href="{% url "list_races" %}" class="menu-link">
                     <div data-i18n="Listar Raças">Listar Raças</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'create_race' or aba_ativa == 'update_race' or aba_ativa == 'delete_race' %}active{% endif %}">
                   <a href="{% url "create_races" %}" class="menu-link">
                     <div data-i18n="Cadastrar Raças">Cadastrar Raças</div>
                   </a>
@@ -138,18 +138,18 @@
               </ul>
             </li>
              <!-- Procedimentos -->
-             <li class="menu-item">
+             <li class="menu-item {% if aba_ativa == 'list_procedures' or aba_ativa == 'create_procedure' or aba_ativa == 'update_procedure' or aba_ativa == 'delete_procedure'%}active open{% endif %}">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="bi bi-eyedropper p-2"></i>
+                <i class="menu-icon bi bi-eyedropper "></i>
                 <div data-i18n="Procedimentos">Procedimentos</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'list_procedures' %}active{% endif %}">
                   <a href="{% url "list_procedures" %}" class="menu-link">
                     <div data-i18n="Listar Procedimentos">Listar Procedimentos</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'create_procedure' or aba_ativa == 'update_procedure' or aba_ativa == 'delete_procedure' %}active{% endif %}">
                   <a href="{% url "create_procedures" %}" class="menu-link">
                     <div data-i18n="Cadastrar Procedimentos">Cadastrar Procedimentos</div>
                   </a>
@@ -157,23 +157,29 @@
               </ul>
             </li>
              <!-- Clientes -->
-             <li class="menu-item">
+             <li class="menu-item {% if aba_ativa == 'list_customers' or aba_ativa == 'create_customer' or aba_ativa == 'update_customer' or aba_ativa == 'delete_customer'%}active open{% endif %}">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="bi bi-buildings-fill p-2"></i>
+                <i class="menu-icon bi bi-buildings-fill "></i>
                 <div data-i18n="Clientes">Clientes</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'list_customers' %}active{% endif %}">
                   <a href="{% url "list_customers" %}" class="menu-link">
                     <div data-i18n="Listar Clientes">Listar Clientes</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {% if aba_ativa == 'create_customer' or aba_ativa == 'update_customer' or aba_ativa == 'delete_customer' %}active{% endif %}">
                   <a href="{% url "create_customers" %}" class="menu-link">
                     <div data-i18n="Cadastrar Clientes">Cadastrar Clientes</div>
                   </a>
                 </li>
               </ul>
+            </li>
+            <li class="menu-item {% if aba_ativa == 'report' %}active{% endif %}">
+              <a href="{% url "report" %}" class="menu-link">
+                <i class="menu-icon bi bi-file-pdf-fill "></i>
+                <div data-i18n="Relatório">Relatório</div>
+              </a>
             </li>
           </ul>
         </aside>
@@ -208,7 +214,7 @@
                   <li class="nav-item navbar-dropdown dropdown-user dropdown">
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                       <div class="avatar avatar-online">
-                        <img src= {% static "/img/avatars/1.png" %} alt class="rounded-circle" />
+                        <img src= {% static "/img/user.png" %} alt class="rounded-circle" />
                       </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -217,7 +223,7 @@
                           <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                               <div class="avatar avatar-online">
-                                <img src={% static "/img/avatars/1.png" %} alt class="rounded-circle" />
+                                <img src={% static "/img/user.png" %} alt class="rounded-circle" />
                               </div>
                             </div>
                             <div class="flex-grow-1">

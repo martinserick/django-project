@@ -1,12 +1,13 @@
 from django.contrib.auth.forms import AuthenticationForm
-from django.forms import ModelForm, TextInput, Select, NumberInput, Textarea
+from django.forms import ModelForm, TextInput, Select, NumberInput, Textarea, DateInput
 from .models import *
+from django import forms
 
 class ExamForm(ModelForm):
     
     class Meta:
         model = Exam
-        exclude = ('status','deadline_to_finish', 'days_elapsed', 'cod_exam', 'finished_at')
+        exclude = ('status','deadline_to_finish', 'days_elapsed', 'cod_exam', 'finished_at', 'user')
         widgets = {
             'name': TextInput(attrs={'class': 'form-control mb-2'}),
             'specie': Select(attrs={'class': 'form-select mb-2'}),
@@ -109,3 +110,9 @@ class CustomAuthenticationForm(AuthenticationForm):
         self.fields['username'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['class'] = 'form-control'
 
+class ReportForm(forms.Form):
+    customer_name = forms.ModelChoiceField(queryset=Customer.objects.all(), label='Nome do Cliente', required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    initial_date = forms.DateField(label='Data Inicial', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}))
+    final_date = forms.DateField(label='Data Final', required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}))
+    status = forms.ChoiceField(choices=(('', '---'),(True, 'Finalizado'), (False, 'Em Andamento')), label='Status', required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    payment = forms.ChoiceField(choices=(('', '---'),('Pago', 'Pago'), ('Pendente', 'Pendente')), label='Status de Pagamento', required=False, widget=forms.Select(attrs={'class': 'form-select'}))

@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django_softdelete.models import SoftDeleteModel 
 # Create your models here.
 
 class Race(models.Model):
@@ -42,7 +43,7 @@ class Procedure(models.Model):
     def __str__(self) -> str:
         return self.name
 
-class Exam(models.Model):
+class Exam(SoftDeleteModel):
     AGE = {}
     for meses in range(1, 12):
         AGE[f"{meses}M"] = f"{meses} Mes{'es' if meses != 1 else ''}"
@@ -78,6 +79,7 @@ class Exam(models.Model):
     cod_exam = models.CharField(max_length=50, null=True)
     finished_at = models.DateTimeField(null=True)
     days_elapsed = models.IntegerField(null=True)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.name
