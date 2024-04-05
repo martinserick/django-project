@@ -46,6 +46,11 @@
         tr:hover {
             background-color: #e9e9e9;
         }
+
+        .values{
+            font-size: 16px;
+            text-align: end;
+        }
     </style>
 </head>
 <body>
@@ -84,6 +89,8 @@
             {% endfor %}
           </tbody>
         </table>
+        <p class="values">Quantidade: <span>{{total}}</span></p>
+        <p class="values">Total: R$<span>{{soma}}</span></p>
     </div>
 </body>
 </html>

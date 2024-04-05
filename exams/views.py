@@ -12,6 +12,7 @@ from .forms import *
 from .models import *
 from .utils import GeneratePDFMixin
 from datetime import datetime
+from django.db.models import Sum
 # Exams
 
 
@@ -364,15 +365,25 @@ def report(request):
             if payment:
                 query = query.filter(payment=payment)
 
+
             if request.GET.get('download') == 'generate':
+                soma_total = query.aggregate(soma_total=Sum('total_value'))['soma_total']
+                total = query.count()
+
                 pdf = GeneratePDFMixin()
-                return pdf.render_html_to_pdf('report/download_template.html', {'query': query} )
+                return pdf.render_html_to_pdf('report/download_template.html', {'query': query, 'soma': soma_total, 'total': total} )
             
             else:
+
+                soma_total = query.aggregate(soma_total=Sum('total_value'))['soma_total']
+                total = query.count()
+
                 context = {
                     'aba_ativa': 'report',
                     'form': form,
-                    'query': query
+                    'query': query,
+                    'soma': soma_total,
+                    'total': total
                 }
                 return render(request, 'report/report_template.html', context=context)
                 
