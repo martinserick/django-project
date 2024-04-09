@@ -25,6 +25,11 @@ urlpatterns = [
     path("race/edit/<int:pk>", RaceUpdateView.as_view(), name="update_races"),
     path("race/delete/<int:pk>", RaceDeleteView.as_view(), name="delete_race"),
 
+    path("responsibe/list/", ResponsibleListView.as_view(), name="list_responsibles"),
+    path("responsible/create/", ResponsibleCreateView.as_view(), name="create_responsibles"),
+    path("responsible/edit/<int:pk>", ResponsibleUpdateView.as_view(), name="update_responsibles"),
+    path("responsible/delete/<int:pk>", ResponsibleDeleteView.as_view(), name="delete_responsible"),
+
     path("customer/list/", CustomerListView.as_view(), name="list_customers"),
     path("customer/create/", CustomerCreateView.as_view(), name="create_customers"),
     path("customer/update/<int:pk>", CustomerUpdateView.as_view(), name="update_customers"),

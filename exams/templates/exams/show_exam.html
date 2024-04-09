@@ -56,6 +56,7 @@
                 {% else %}
                   <p class="mb-1">Custo Procedimento: {{exam.procedure.laboratory_value|upper}}</p>
                 {% endif %}
+                <p class="mb-1">Responsável: {{exam.responsible.name|upper}}</p>
                 <p class="mb-1">Desconto: {{exam.discount|upper}}</p>
                 <p class="mb-1">Valor: R${{exam.total_value|upper}}</p>
                 {% if exam.status %}

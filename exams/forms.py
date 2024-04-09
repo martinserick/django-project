@@ -21,6 +21,7 @@ class ExamForm(ModelForm):
             'total_value': NumberInput(attrs={'class': 'form-control mb-2'}),
             'payment': Select(attrs={'class': 'form-select mb-2'}),
             'observation': Textarea(attrs={'class': 'form-control mb-2', 'required': False}),
+            'responsible': Select(attrs={'class': 'form-select mb-2'})
         }
         labels = {
             'name': "Nome do Pet",
@@ -35,7 +36,8 @@ class ExamForm(ModelForm):
             'total_value': "Valor Total",
             'payment': "Pagamento",
             'status': "Status",
-            'observation': 'Observação'
+            'observation': 'Observação',
+            'responsible': 'Responsável'
         }
 
 class SpecieForm(ModelForm):
@@ -49,6 +51,19 @@ class SpecieForm(ModelForm):
         }
         labels = {
             'name': "Espécie"
+        }
+
+class ResponsibleForm(ModelForm):
+    
+    class Meta:
+        model = Responsible
+        fields = "__all__"
+
+        widgets = {
+            'name': TextInput(attrs={'class': 'form-control mb-2'}),
+        }
+        labels = {
+            'name': "Responsável"
         }
 
 class RaceForm(ModelForm):
