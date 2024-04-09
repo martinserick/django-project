@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <!-- Content -->
+
+ <div class="container-xxl flex-grow-1 container">
+  <h4 class="py-3 breadcrumb-wrapper mb-4">
+    <span class="text-muted fw-light">Listagem de Responsáveis /</span> Responsáveis
+  </h4>
+
+  <!-- Basic Bootstrap Table -->
+  <div class="card">
+    <h5 class="card-header">Responsáveis</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          {% for responsible in responsible_list %}          
+          <tr>
+            <td>{{responsible.name}}</td>
+            <td>
+              <a href="{% url 'update_responsibles' pk=responsible.pk %}" class="p-2"><i class="bi bi-pencil-fill"></i></a>
+              <a href="{% url 'delete_responsible' pk=responsible.pk %}" class="p-2"><i class="bi bi-trash-fill text-danger"></i></a>
+            </td>
+          </tr> 
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <a href="{% url "create_responsibles" %}">
+    <button class="btn btn-primary mt-3 mb-3">Novo Responsável</button>
+  </a>
+  <!--/ Basic Bootstrap Table -->  
+  <!--/ Responsive Table -->
+</div>
+<!-- / Content -->
+{% endblock content %}
+

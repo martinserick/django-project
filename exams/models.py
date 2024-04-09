@@ -42,6 +42,12 @@ class Procedure(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+class Responsible(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
+        return self.name
 
 class Exam(SoftDeleteModel):
     AGE = {}
@@ -80,6 +86,7 @@ class Exam(SoftDeleteModel):
     finished_at = models.DateTimeField(null=True)
     days_elapsed = models.IntegerField(null=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    responsible = models.ForeignKey(Responsible, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.name

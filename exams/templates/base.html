@@ -181,6 +181,25 @@
                 <div data-i18n="Relatório">Relatório</div>
               </a>
             </li>
+             <!-- Responsável -->
+             <li class="menu-item {% if aba_ativa == 'list_responsibles' or aba_ativa == 'create_responsible' or aba_ativa == 'update_responsible' or aba_ativa == 'delete_responsible'%}active open{% endif %}">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon bi bi-person-fill-gear"></i>
+                <div data-i18n="Responsável">Responsável</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item {% if aba_ativa == 'list_responsibles' %}active{% endif %}">
+                  <a href="{% url "list_responsibles" %}" class="menu-link">
+                    <div data-i18n="Listar Responsáveis">Listar Responsáveis</div>
+                  </a>
+                </li>
+                <li class="menu-item {% if aba_ativa == 'create_responsible' or aba_ativa == 'update_responsible' or aba_ativa == 'delete_responsible' %}active{% endif %}">
+                  <a href="{% url "create_responsibles" %}" class="menu-link">
+                    <div data-i18n="Cadastrar Responsável">Cadastrar Responsável</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
           </ul>
         </aside>
         <!-- / Menu -->

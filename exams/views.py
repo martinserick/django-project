@@ -29,8 +29,7 @@ class ExamListView(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'list_exams'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'list_exams'
         return context
     
 class ExamDetailView(LoginRequiredMixin, DetailView):
@@ -39,8 +38,8 @@ class ExamDetailView(LoginRequiredMixin, DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'detail_exam'  # Supondo que 'inicio' seja a aba padrão
+        
+        context['aba_ativa'] = 'detail_exam'
         return context
 
 class ExamCreateView(LoginRequiredMixin, CreateView):
@@ -81,9 +80,8 @@ class ExamDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('list_exams')
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'delete_exam'  # Supondo que 'inicio' seja a aba padrão
+        context = super().get_context_data(**kwargs)        
+        context['aba_ativa'] = 'delete_exam'
         return context
 
 def FinishExam(request):
@@ -110,8 +108,7 @@ class SpecieListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'list_species'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'list_species'
         return context
 
 class SpecieCreateView(LoginRequiredMixin, CreateView):
@@ -122,8 +119,7 @@ class SpecieCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'create_species'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'create_species'
         return context
 
 class SpecieUpdateView(LoginRequiredMixin, UpdateView):
@@ -134,8 +130,7 @@ class SpecieUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'update_specie'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'update_specie'
         return context
 
 class SpecieDeleteView(LoginRequiredMixin, DeleteView):
@@ -145,8 +140,7 @@ class SpecieDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'delete_specie'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'delete_specie'
         return context
 
 
@@ -157,8 +151,7 @@ class RaceListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'list_races'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'list_races'
         return context
 
 
@@ -170,8 +163,7 @@ class RaceCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'create_race'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'create_race'
         return context
 
 class RaceUpdateView(LoginRequiredMixin, UpdateView):
@@ -182,8 +174,7 @@ class RaceUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'update_race'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'update_race'
         return context
 
 class RaceDeleteView(LoginRequiredMixin, DeleteView):
@@ -193,8 +184,50 @@ class RaceDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'delete_race'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'delete_race'
+        return context
+    
+# Responsible
+class ResponsibleListView(LoginRequiredMixin, ListView):
+    model = Responsible
+    template_name = "responsibles/list_responsibles.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['aba_ativa'] = 'list_responsibles'
+        return context
+
+
+class ResponsibleCreateView(LoginRequiredMixin, CreateView):
+    model = Responsible
+    template_name = "responsibles/responsibles_form.html"
+    form_class = ResponsibleForm
+    success_url = reverse_lazy('list_responsibles')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['aba_ativa'] = 'create_responsible'
+        return context
+
+class ResponsibleUpdateView(LoginRequiredMixin, UpdateView):
+    model = Responsible
+    template_name = "responsibles/responsibles_form.html"
+    form_class = ResponsibleForm
+    success_url = reverse_lazy('list_responsibles')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['aba_ativa'] = 'update_responsible'
+        return context
+
+class ResponsibleDeleteView(LoginRequiredMixin, DeleteView):
+    model = Responsible
+    template_name = 'responsibles/delete_responsibles.html'
+    success_url = reverse_lazy('list_responsibles')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['aba_ativa'] = 'delete_race'
         return context
 
 # Procedures
@@ -205,8 +238,7 @@ class ProcedureListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'list_procedures'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'list_procedures'
         return context
 
 
@@ -219,8 +251,7 @@ class ProcedureCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'create_procedure'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'create_procedure'
         return context
     
 
@@ -232,8 +263,7 @@ class ProcedureUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione uma chave ao contexto para indicar qual aba está ativa
-        context['aba_ativa'] = 'update_procedure'  # Supondo que 'inicio' seja a aba padrão
+        context['aba_ativa'] = 'update_procedure'
         return context
 
 class ProcedureDeleteView(LoginRequiredMixin, DeleteView):

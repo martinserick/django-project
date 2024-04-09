@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <!-- Content -->
+
+ <div class="container-xxl flex-grow-1 container">
+  <h4 class="py-3 breadcrumb-wrapper mb-4">
+    <span class="text-muted fw-light">Excluir Responsável /</span> Exclusão
+  </h4>
+
+  <!-- Basic Bootstrap Table -->
+
+  <h2>Confirmação de exclusão</h2>
+  <h5>Tem certexa que deseja excluir o cliente <strong> {{ responsible.name }}</strong>?</h5>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a href="{% url 'list_responsibles' %}"><button type="button" class="btn btn-primary">Cancelar</button></a>
+  </form>
+  <!--/ Basic Bootstrap Table -->  
+  <!--/ Responsive Table -->
+</div>
+<!-- / Content -->
+{% endblock content %}
+

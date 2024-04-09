@@ -42,6 +42,7 @@
             <th>Observação</th>
             <th>Status</th>
             <th>Pagamento</th>
+            <th>Responsável</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -66,6 +67,7 @@
               <td><i class="bi bi-x-circle text-danger"></i></td>
             {% endif %}
             <td>{{ exam.payment }}</td>
+            <td>{{ exam.responsible.name }}</td>
             <td>
               <a href="{% url 'show_exam' pk=exam.pk %}"><i class="bi bi-eye-fill p-1"></i></a>
               <a href="{% url 'update_exams' pk=exam.pk %}"><i class="bi bi-pencil-fill text-secondary p-1"></i></a>
